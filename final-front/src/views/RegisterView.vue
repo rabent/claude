@@ -33,7 +33,7 @@
             비밀번호는 8자 이상 15자 이하로 입력해주세요.
           </span>
         </div>
-        
+
         <div class="form-group">
           <label for="passwordConfirm">비밀번호 확인</label>
           <input
@@ -47,7 +47,7 @@
             {{ passwordMatchMessage }}
           </span>
         </div>
-        
+
         <div class="form-group">
           <label for="name">이름</label>
           <input
@@ -59,7 +59,7 @@
             placeholder="이름을 입력하세요 (15자 이하)"
           />
         </div>
-        
+
         <div class="form-group">
           <label for="address">주소</label>
           <input
@@ -100,7 +100,7 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'  // axios import 추가
+import api from '@/utils/axios'  // axios import 추가
 
 const router = useRouter()
 const passwordConfirm = ref('')
@@ -150,7 +150,7 @@ const isValidEmail = computed(() => {
 
 // 비밀번호 유효성 검사 추가
 const isValidPassword = computed(() => {
-  return !registerForm.password || 
+  return !registerForm.password ||
     (registerForm.password.length >= 8 && registerForm.password.length <= 15)
 })
 
@@ -185,11 +185,11 @@ const handleRegister = async () => {
     }
 
     // API 호출
-    const response = await axios.post('http://localhost:8080/api/users', formData)
-    
+    const response = await api.post('/users', formData)
+
     if (response.data) {
       alert('회원가입이 완료되었습니다.')
-      console.log('회원가입 성공:', response.data)
+      console.log('회원가입 성공:', response.data) 
       router.push('/login')
     }
   } catch (error) {
